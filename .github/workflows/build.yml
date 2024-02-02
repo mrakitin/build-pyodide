@@ -25,7 +25,8 @@ jobs:
           #   name: rdkit-pypi
           #   version: "rdkit-pypi"
           - repo: https://github.com/ssciwr/ipywidgets-jsonschema
-            name: ipywidgets_jsonschema
+            name: ipywidgets-jsonschema
+            package-name: ipywidgets_jsonschema
             version: "v1.1.0"
 
     steps:
@@ -62,5 +63,5 @@ jobs:
       - name: Upload built artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.name }}-${{ matrix.version }}
-          path: ${{ matrix.name }}/dist/${{ matrix.name }}-*.whl
+          name: ${{ matrix.package-name }}-${{ matrix.version }}
+          path: ${{ matrix.name }}/dist/${{ matrix.package-name }}-*.whl
