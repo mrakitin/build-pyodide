@@ -17,7 +17,8 @@ jobs:
     - run: |
         set -vxeuo pipefail
         pip install pyodide-build>=0.23.0
-        echo EMSCRIPTEN_VERSION=$(pyodide config get emscripten_version) >> $GITHUB_ENV
+        export EMSCRIPTEN_VERSION=$(pyodide config get emscripten_version)
+        echo EMSCRIPTEN_VERSION=${EMSCRIPTEN_VERSION} >> $GITHUB_ENV
         echo "EMSCRIPTEN_VERSION is $EMSCRIPTEN_VERSION"
 
     - uses: mymindstorm/setup-emsdk@v12
