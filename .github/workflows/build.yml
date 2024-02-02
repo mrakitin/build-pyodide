@@ -23,7 +23,7 @@ jobs:
         #    version: "v3.0.0"
           - repo: https://github.com/kuelumbus/rdkit-pypi/
             name: rdkit-pypi
-            version: "rdkit-pypi"
+            version: "main"
 
     steps:
       - name: Check out the repo
