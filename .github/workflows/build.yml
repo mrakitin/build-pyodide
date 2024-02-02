@@ -9,25 +9,31 @@ jobs:
   run_build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
-      with:
-        python-version: 3.11.2
+      - name: Check out the repo
+        uses: actions/checkout@v4
 
-    - run: |
-        set -vxeuo pipefail
-        pip install pyodide-build>=0.23.0
-        export EMSCRIPTEN_VERSION=$(pyodide config get emscripten_version)
-        echo EMSCRIPTEN_VERSION=${EMSCRIPTEN_VERSION} >> $GITHUB_ENV
-        echo "EMSCRIPTEN_VERSION is $EMSCRIPTEN_VERSION"
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11.2
 
-    - uses: mymindstorm/setup-emsdk@v12
-      with:
-        version: ${{ env.EMSCRIPTEN_VERSION }}
+      - name: Set up env vars
+        run: |
+          set -vxeuo pipefail
+          pip install pyodide-build>=0.23.0
+          export EMSCRIPTEN_VERSION=$(pyodide config get emscripten_version)
+          echo EMSCRIPTEN_VERSION=${EMSCRIPTEN_VERSION} >> $GITHUB_ENV
+          echo "EMSCRIPTEN_VERSION is $EMSCRIPTEN_VERSION"
 
-    - run: |
-        set -vxeuo pipefail
-        git clone https://github.com/Pylons/paginate
-        cd paginate/
-        pyodide build
-        ls -la
+      - name: Set up Emscripten
+        uses: mymindstorm/setup-emsdk@v12
+        with:
+          version: ${{ env.EMSCRIPTEN_VERSION }}
+
+      - name: Build with Pyodide
+        run: |
+          set -vxeuo pipefail
+          git clone https://github.com/Pylons/paginate
+          cd paginate/
+          pyodide build
+          ls -la
