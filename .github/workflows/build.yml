@@ -28,7 +28,7 @@ jobs:
 
       - name: Define package to build
         run: |
-          set -vxeuo pipefail
+          set -vxeo pipefail
           # https://stackoverflow.com/a/3162500:
           export PACKAGE_NAME="${${{ matrix.repo }}##*/}"
           echo PACKAGE_NAME=${PACKAGE_NAME} >> $GITHUB_ENV
