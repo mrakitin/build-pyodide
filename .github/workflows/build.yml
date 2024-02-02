@@ -13,8 +13,10 @@ jobs:
       matrix:
         include:
           - repo: https://github.com/Pylons/paginate
+            name: paginate
             version: "0.5.6"
           - repo: https://github.com/gorakhargosh/watchdog
+            name: watchdog
             version: "2.3.1"
 
     steps:
@@ -25,13 +27,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.11.2
-
-      - name: Define package to build
-        run: |
-          set -vxeo pipefail
-          # https://stackoverflow.com/a/3162500:
-          export PACKAGE_NAME="${${{ matrix.repo }}##*/}"
-          echo PACKAGE_NAME=${PACKAGE_NAME} >> $GITHUB_ENV
 
       - name: Set up env vars for Emscripten
         run: |
@@ -50,7 +45,7 @@ jobs:
         run: |
           set -vxeuo pipefail
           git clone --depth 1 --branch ${{ matrix.version }} ${{ matrix.repo }}
-          cd ${{ env.PACKAGE_NAME }}
+          cd ${{ matrix.name }}
           pyodide build
           ls -la
           tree .
@@ -58,5 +53,5 @@ jobs:
       - name: Upload built artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.PACKAGE_NAME }}
-          path: ${{ env.PACKAGE_NAME }}/dist/${{ env.PACKAGE_NAME }}-*.whl
+          name: ${{ matrix.name }}
+          path: ${{ matrix.name }}/dist/${{ matrix.name }}-*.whl
