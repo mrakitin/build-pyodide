@@ -31,7 +31,7 @@ jobs:
           echo PACKAGE_SOURCE=${PACKAGE_SOURCE} >> $GITHUB_ENV
           echo PACKAGE_NAME=${PACKAGE_NAME} >> $GITHUB_ENV
 
-      - name: Set up env vars for EMSCRIPTEN_VERSION
+      - name: Set up env vars for Emscripten
         run: |
           set -vxeuo pipefail
           pip install pyodide-build>=0.23.0
