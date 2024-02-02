@@ -18,6 +18,9 @@ jobs:
           - repo: https://github.com/gorakhargosh/watchdog
             name: watchdog
             version: "v2.3.1"
+          - repo: https://github.com/gorakhargosh/watchdog
+            name: watchdog
+            version: "v3.0.0"
 
     steps:
       - name: Check out the repo
@@ -53,5 +56,5 @@ jobs:
       - name: Upload built artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.name }}
+          name: ${{ matrix.name }}-${{ matrix.version }}
           path: ${{ matrix.name }}/dist/${{ matrix.name }}-*.whl
