@@ -12,17 +12,17 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - repo: https://github.com/Pylons/paginate
-            name: paginate
-            version: "0.5.6"
-          - repo: https://github.com/gorakhargosh/watchdog
-            name: watchdog
-            version: "v2.3.1"
-          - repo: https://github.com/gorakhargosh/watchdog
-            name: watchdog
-            version: "v3.0.0"
+        #  - repo: https://github.com/Pylons/paginate
+        #    name: paginate
+        #    version: "0.5.6"
+        #  - repo: https://github.com/gorakhargosh/watchdog
+        #    name: watchdog
+        #    version: "v2.3.1"
+        #  - repo: https://github.com/gorakhargosh/watchdog
+        #    name: watchdog
+        #    version: "v3.0.0"
           - repo: https://github.com/kuelumbus/rdkit-pypi/
-            name: rdkit
+            name: rdkit-pypi
             version: "rdkit-pypi"
 
     steps:
