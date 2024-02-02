@@ -24,9 +24,12 @@ jobs:
           - repo: https://github.com/kuelumbus/rdkit-pypi
             name: rdkit-pypi
             version: "main"
-          - repo: https://github.com/tensorflow/tensorflow
-            name: tensorflow
-            version: "v2.15.0"
+        #   - repo: https://github.com/tensorflow/tensorflow
+        #     name: tensorflow
+        #     version: "v2.15.0"
+          - repo: https://github.com/pytorch/pytorch
+            name: pytorch
+            version: "v2.2.0"
 
     steps:
       - name: Check out the repo
