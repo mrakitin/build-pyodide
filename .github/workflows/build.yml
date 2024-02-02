@@ -8,6 +8,11 @@ on:
 jobs:
   run_build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        packages: ["https://github.com/Pylons/paginate"]
+      fail-fast: false
+
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -17,7 +22,16 @@ jobs:
         with:
           python-version: 3.11.2
 
-      - name: Set up env vars
+      - name: Define package to build
+        run: |
+          set -vxeuo pipefail
+          export PACKAGE_SOURCE="${{ matrix.packages }}"
+          # https://stackoverflow.com/a/3162500:
+          export PACKAGE_NAME="${PACKAGE_SOURCE##*/}"
+          echo PACKAGE_SOURCE=${PACKAGE_SOURCE} >> $GITHUB_ENV
+          echo PACKAGE_NAME=${PACKAGE_NAME} >> $GITHUB_ENV
+
+      - name: Set up env vars for EMSCRIPTEN_VERSION
         run: |
           set -vxeuo pipefail
           pip install pyodide-build>=0.23.0
@@ -33,7 +47,12 @@ jobs:
       - name: Build with Pyodide
         run: |
           set -vxeuo pipefail
-          git clone https://github.com/Pylons/paginate
-          cd paginate/
+          git clone ${{ env.PACKAGE_SOURCE }}
+          cd ${{ env.PACKAGE_NAME }}
           pyodide build
           ls -la
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.PACKAGE_NAME }}
+          path: ${{ env.PACKAGE_NAME }}/dist/${{ env.PACKAGE_NAME }}-*.whl
