@@ -11,7 +11,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        packages: [ {repo: https://github.com/Pylons/paginate, version: "0.5.6"}, {repo: https://github.com/gorakhargosh/watchdog, version: "2.3.1"} ]
+        include:
+          - repo: https://github.com/Pylons/paginate
+            version: "0.5.6"
+          - repo: https://github.com/gorakhargosh/watchdog
+            version: "2.3.1"
 
     steps:
       - name: Check out the repo
@@ -26,7 +30,7 @@ jobs:
         run: |
           set -vxeuo pipefail
           # https://stackoverflow.com/a/3162500:
-          export PACKAGE_NAME="${${{ matrix.packages.repo }}##*/}"
+          export PACKAGE_NAME="${${{ matrix.repo }}##*/}"
           echo PACKAGE_NAME=${PACKAGE_NAME} >> $GITHUB_ENV
 
       - name: Set up env vars for Emscripten
@@ -45,7 +49,7 @@ jobs:
       - name: Build with Pyodide
         run: |
           set -vxeuo pipefail
-          git clone --depth 1 --branch ${{ matrix.packages.version }} ${{ matrix.packages.repo }}
+          git clone --depth 1 --branch ${{ matrix.version }} ${{ matrix.repo }}
           cd ${{ env.PACKAGE_NAME }}
           pyodide build
           ls -la
