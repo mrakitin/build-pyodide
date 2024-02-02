@@ -21,9 +21,9 @@ jobs:
           - repo: https://github.com/gorakhargosh/watchdog
             name: watchdog
             version: "v3.0.0"
-          - repo: https://github.com/rdkit/rdkit
+          - repo: https://github.com/kuelumbus/rdkit-pypi/tree/rdkit-pypi
             name: rdkit
-            version: "Release_2023_09_4"
+            version: "rdkit-pypi"
 
     steps:
       - name: Check out the repo
