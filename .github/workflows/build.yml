@@ -1,0 +1,60 @@
+name: Build packages with Pyodide
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  run_build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - repo: https://github.com/Pylons/paginate
+            name: paginate
+            version: "0.5.6"
+          - repo: https://github.com/gorakhargosh/watchdog
+            name: watchdog
+            version: "v2.3.1"
+          - repo: https://github.com/gorakhargosh/watchdog
+            name: watchdog
+            version: "v3.0.0"
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11.2
+
+      - name: Set up env vars for Emscripten
+        run: |
+          set -vxeuo pipefail
+          pip install pyodide-build>=0.23.0
+          export EMSCRIPTEN_VERSION=$(pyodide config get emscripten_version)
+          echo EMSCRIPTEN_VERSION=${EMSCRIPTEN_VERSION} >> $GITHUB_ENV
+          echo "EMSCRIPTEN_VERSION is $EMSCRIPTEN_VERSION"
+
+      - name: Set up Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: ${{ env.EMSCRIPTEN_VERSION }}
+
+      - name: Build with Pyodide
+        run: |
+          set -vxeuo pipefail
+          git clone --depth 1 --branch ${{ matrix.version }} ${{ matrix.repo }}
+          cd ${{ matrix.name }}
+          pyodide build
+          ls -la
+          tree .
+
+      - name: Upload built artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}-${{ matrix.version }}
+          path: ${{ matrix.name }}/dist/${{ matrix.name }}-*.whl
