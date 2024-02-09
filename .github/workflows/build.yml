@@ -24,10 +24,10 @@ jobs:
           # - repo: https://github.com/kuelumbus/rdkit-pypi/
           #   name: rdkit-pypi
           #   version: "rdkit-pypi"
-          - repo: https://github.com/ssciwr/ipywidgets-jsonschema
-            name: ipywidgets-jsonschema
-            package-name: ipywidgets_jsonschema
-            version: "v1.1.0"
+          - repo: https://github.com/pytorch/pytorch
+            name: pytorch
+            package-name: pytorch
+            version: "v1.13.1"
 
     steps:
       - name: Check out the repo
