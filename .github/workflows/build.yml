@@ -224,10 +224,10 @@ jobs:
               # MKLDNN is an Apache-2.0 licensed library for DNNs and is used
               # for CPU builds. Not to be confused with MKL.
               export USE_MKLDNN=1
-              export USE_CUDA=0
               export CMAKE_TOOLCHAIN_FILE="${RECIPE_DIR}/cross-linux.cmake"
           fi
 
+          export USE_CUDA=0
           echo '${CXX}'=${CXX}
           echo '${PREFIX}'=${PREFIX}
           # End of CF build script
