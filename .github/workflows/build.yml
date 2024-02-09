@@ -57,7 +57,9 @@ jobs:
           git clone --depth 1 --branch ${{ matrix.version }} ${{ matrix.repo }}
           cd ${{ matrix.name }}
           export DEBUG=1
-          pyodide build -vv
+          export USE_CUDA=0
+          export CMAKE_BUILD_TYPE=Debug
+          pyodide build
           ls -la
           tree .
 
