@@ -53,7 +53,7 @@ jobs:
 
       - name: Build with Pyodide
         run: |
-          set -vxeuo pipefail
+          set -vxeo pipefail
           git clone --depth 1 --branch ${{ matrix.version }} ${{ matrix.repo }}
           cd ${{ matrix.name }}
 
