@@ -59,6 +59,8 @@ jobs:
           export DEBUG=1
           export USE_CUDA=0
           export CMAKE_BUILD_TYPE=Debug
+          ls -al /home/runner/work/build-pyodide/build-pyodide/pytorch/build/bin/
+          ls -la /home/runner/work/build-pyodide/build-pyodide/pytorch/build/bin/protoc.js-3.13.0.0
           pyodide build
           ls -la
           tree .
