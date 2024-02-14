@@ -174,25 +174,25 @@ fi
 
 echo '${CXX}'=${CXX}
 echo '${PREFIX}'=${PREFIX}
-$PREFIX/bin/python -m pip $PIP_ACTION . --no-deps -vvv --no-clean \
-    | sed "s,${CXX},\$\{CXX\},g" \
-    | sed "s,${PREFIX},\$\{PREFIX\},g"
+# $PREFIX/bin/python -m pip $PIP_ACTION . --no-deps -vvv --no-clean \
+#     | sed "s,${CXX},\$\{CXX\},g" \
+#     | sed "s,${PREFIX},\$\{PREFIX\},g"
 
-if [[ "$PKG_NAME" == "libtorch" ]]; then
-  mkdir -p $SRC_DIR/dist
-  pushd $SRC_DIR/dist
-  wheel unpack ../torch-*.whl
-  pushd torch-*
-  mv torch/bin/* ${PREFIX}/bin
-  mv torch/lib/* ${PREFIX}/lib
-  mv torch/share/* ${PREFIX}/share
-  for f in ATen caffe2 tensorpipe torch c10; do
-    mv torch/include/$f ${PREFIX}/include/$f
-  done
-  rm ${PREFIX}/lib/libtorch_python.*
-  popd
-  popd
+# if [[ "$PKG_NAME" == "libtorch" ]]; then
+#   mkdir -p $SRC_DIR/dist
+#   pushd $SRC_DIR/dist
+#   wheel unpack ../torch-*.whl
+#   pushd torch-*
+#   mv torch/bin/* ${PREFIX}/bin
+#   mv torch/lib/* ${PREFIX}/lib
+#   mv torch/share/* ${PREFIX}/share
+#   for f in ATen caffe2 tensorpipe torch c10; do
+#     mv torch/include/$f ${PREFIX}/include/$f
+#   done
+#   rm ${PREFIX}/lib/libtorch_python.*
+#   popd
+#   popd
 
-  # Keep the original backed up to sed later
-  cp build/CMakeCache.txt build/CMakeCache.txt.orig
-fi
+#   # Keep the original backed up to sed later
+#   cp build/CMakeCache.txt build/CMakeCache.txt.orig
+# fi
