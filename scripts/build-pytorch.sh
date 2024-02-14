@@ -117,50 +117,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
         # was added. Revisit later
         export USE_MKLDNN=0
     fi
-elif [[ ${cuda_compiler_version} != "None" ]]; then
-    # Even though cudnn is used for CUDA builds, it's good to enable
-    # for MKLDNN for CUDA builds when CUDA builds are used on a machine
-    # with no NVIDIA GPUs. However compilation fails with mkldnn and cuda enabled.
-    export USE_MKLDNN=OFF
-    export USE_CUDA=1
-
-    echo "cuda_compiler_version = ${cuda_compiler_version}"
-    if [[ ${cuda_compiler_version} == 9.0* ]]; then
-        export TORCH_CUDA_ARCH_LIST="3.5;5.0;6.0;7.0+PTX"
-        export CUDA_TOOLKIT_ROOT_DIR=$CUDA_HOME
-    elif [[ ${cuda_compiler_version} == 9.2* ]]; then
-        export TORCH_CUDA_ARCH_LIST="3.5;5.0;6.0;6.1;7.0+PTX"
-        export CUDA_TOOLKIT_ROOT_DIR=$CUDA_HOME
-    elif [[ ${cuda_compiler_version} == 10.* ]]; then
-        export TORCH_CUDA_ARCH_LIST="3.5;5.0;6.0;6.1;7.0;7.5+PTX"
-        export CUDA_TOOLKIT_ROOT_DIR=$CUDA_HOME
-    elif [[ ${cuda_compiler_version} == 11.0* ]]; then
-        export TORCH_CUDA_ARCH_LIST="3.5;5.0;6.0;6.1;7.0;7.5;8.0+PTX"
-        export CUDA_TOOLKIT_ROOT_DIR=$CUDA_HOME
-    elif [[ ${cuda_compiler_version} == 11.1 ]]; then
-        export TORCH_CUDA_ARCH_LIST="3.5;5.0;6.0;6.1;7.0;7.5;8.0;8.6+PTX"
-        export CUDA_TOOLKIT_ROOT_DIR=$CUDA_HOME
-    elif [[ ${cuda_compiler_version} == 11.2 ]]; then
-        export TORCH_CUDA_ARCH_LIST="3.5;5.0;6.0;6.1;7.0;7.5;8.0;8.6+PTX"
-        export CUDA_TOOLKIT_ROOT_DIR=$CUDA_HOME
-    elif [[ ${cuda_compiler_version} == 11.8 ]]; then
-        export TORCH_CUDA_ARCH_LIST="3.5;5.0;6.0;6.1;7.0;7.5;8.0;8.6;8.9+PTX"
-        export CUDA_TOOLKIT_ROOT_DIR=$CUDA_HOME
-    elif [[ ${cuda_compiler_version} == 12.0 ]]; then
-        export TORCH_CUDA_ARCH_LIST="5.0;6.0;6.1;7.0;7.5;8.0;8.6;8.9;9.0+PTX"
-        # $CUDA_HOME not set in CUDA 12.0. Using $PREFIX
-        export CUDA_TOOLKIT_ROOT_DIR="${PREFIX}"
-    else
-        echo "unsupported cuda version. edit build_pytorch.sh"
-        exit 1
-    fi
-    export TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
-    export NCCL_ROOT_DIR=$PREFIX
-    export NCCL_INCLUDE_DIR=$PREFIX/include
-    export USE_SYSTEM_NCCL=1
-    export USE_STATIC_NCCL=0
-    export USE_STATIC_CUDNN=0
-    export MAGMA_HOME="${PREFIX}"
 else
     if [[ "$target_platform" != *-64 ]]; then
       # Breakpad seems to not work on aarch64 or ppc64le
