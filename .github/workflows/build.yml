@@ -27,7 +27,7 @@ jobs:
           - repo: https://github.com/pytorch/pytorch
             name: pytorch
             package-name: pytorch
-            version: "v1.13.1"
+            version: "v2.1.2"
 
     steps:
       - name: Check out the repo
@@ -55,12 +55,11 @@ jobs:
         run: |
           set -vxeo pipefail
 
-          # Source the variables from the CF build script: https://github.com/conda-forge/pytorch-cpu-feedstock/blob/main/recipe/build.sh
-          source scripts/build-pytorch.sh
-
           git clone --depth 1 --branch ${{ matrix.version }} ${{ matrix.repo }}
           cd ${{ matrix.name }}
 
+          # Source the variables from the CF build script: https://github.com/conda-forge/pytorch-cpu-feedstock/blob/main/recipe/build.sh
+          source ../scripts/build-pytorch.sh
 
           pyodide build
           ls -la
